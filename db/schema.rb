@@ -10,8 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_015557) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_11_24_104539) do
+
   create_table "prototypes", charset: "utf8", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "catch_copy", null: false
+    t.text "concept", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
