@@ -9,6 +9,9 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  config.to_param do
+    Devise::RegistrationsController.before_action :configure_permitted_parameters
+  end
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -313,11 +316,8 @@ Devise.setup do |config|
 
   # config/initializers/devise.rb
 
-Devise.setup do |config|
+
   # ... (existing configurations)
 
-  config.to_prepare do
-    Devise::RegistrationsController.before_action :configure_permitted_parameters
-  end
 end
 
