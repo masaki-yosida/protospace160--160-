@@ -1,6 +1,11 @@
+# app/models/user.rb
+
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # other Devise modules...
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  # Remove any attr_accessor for name, profile, occupation, position if present
 end
+
