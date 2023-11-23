@@ -10,7 +10,10 @@
 
     <div class="card__wrapper">
       <%# 投稿機能実装後、部分テンプレートでプロトタイプ投稿一覧を表示する %>
-      <%= render partial: 'prototypes/prototype', collection: @prototypes %>
+      <% @prototypes.each do |prototype| %>
+        <%= render partial: 'prototypes/prototype', locals: { prototype: prototype } %>
+      <% end %>
     </div>
   </div>
 </main>
+
