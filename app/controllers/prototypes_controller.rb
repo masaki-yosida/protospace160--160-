@@ -1,12 +1,10 @@
 class PrototypesController < ApplicationController
+  before_action :move_to_index, except: [:index, :show, :destroy, :new, :create]
 
-  before_action :move_to_index, except: [:index, :show, :destroy]
 
   def index
     @prototypes = Prototype.all
-    logger.debug "Prototypes: #{@prototypes.inspect}"
   end
-  
   
   def show
     @prototype = Prototype.find(params[:id])
@@ -32,17 +30,34 @@ class PrototypesController < ApplicationController
     end
   end
 
+  def edit
+    @prototype = Prototype.find(params[:id])
+  
+    # 追加: 現在のユーザーがプロトタイプの投稿者でない場合、トップページにリダイレクト
+    unless user_signed_in? && @prototype.user == current_user
+      redirect_to root_path, alert: '他のユーザーのプロトタイプは編集できません。'
+    end
+  end
+
+  def update
+    @prototype = Prototype.find(params[:id])
+
+    if @prototype.update(prototype_params)
+      redirect_to prototype_path(@prototype), notice: 'プロトタイプが正常に更新されました。'
+    else
+      render :edit
+    end
+  end
+
   private
 
   def prototype_params
-
-    params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
+    params.require(:prototype).permit(:title, :catch_copy, :concept, :image)
   end
 
   def move_to_index
-    unless user_signed_in? && (params[:action] == 'new' || params[:action] == 'create')
+    unless user_signed_in? && (params[:action] == 'edit' || params[:action] == 'update' || params[:action] == 'new' || params[:action] == 'create')
       redirect_to action: :index
     end
   end
-  
 end
