@@ -1,6 +1,6 @@
 class PrototypesController < ApplicationController
 
-  before_action :move_to_index, except: [:index, :show]
+  before_action :move_to_index, except: [:index, :show, :destroy]
 
   def index
     @prototypes = Prototype.all
@@ -14,6 +14,12 @@ class PrototypesController < ApplicationController
 
   def new
     @prototype = Prototype.new
+  end
+
+  def destroy
+    @prototype = Prototype.find(params[:id])
+    @prototype.destroy
+    redirect_to root_path, notice: 'プロトタイプが削除されました'
   end
 
   def create
@@ -32,6 +38,7 @@ class PrototypesController < ApplicationController
 
     params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
   end
+
   def move_to_index
     unless user_signed_in? && (params[:action] == 'new' || params[:action] == 'create')
       redirect_to action: :index
