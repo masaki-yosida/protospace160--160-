@@ -4,8 +4,10 @@ class PrototypesController < ApplicationController
 
   def index
     @prototypes = Prototype.all
+    logger.debug "Prototypes: #{@prototypes.inspect}"
   end
-
+  
+  
   def show
     @prototype = Prototype.find(params[:id])
   end
