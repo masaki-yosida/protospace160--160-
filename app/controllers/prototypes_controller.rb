@@ -32,10 +32,10 @@ class PrototypesController < ApplicationController
 
     params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
   end
-
   def move_to_index
-    unless user_signed_in?
+    unless user_signed_in? && (params[:action] == 'new' || params[:action] == 'create')
       redirect_to action: :index
     end
   end
+  
 end
