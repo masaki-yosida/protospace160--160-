@@ -7,6 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :prototypes
+  has_many :comments
 
   # Remove any attr_accessor for name, profile, occupation, position if present
   validates :name, presence: true
